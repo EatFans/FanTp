@@ -2,6 +2,7 @@ name: FanTp
 version: '1.0.0'
 main: top.eatfan.fanTp.FanTp
 authors: [ EatFan ]
+api-version: 1.13
 description: A simpler and faster player teleportation plug-in
 
 commands:
@@ -11,3 +12,10 @@ commands:
   t:
     description: main command
     usage: /t
+
+permissions:
+  fantp.admin:
+    description: This is admin permission in the plugin
+  fantp.tp:
+    description: This is the tp permission in the plugin
+

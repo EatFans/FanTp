@@ -22,11 +22,18 @@ public class MainCommand implements CommandExecutor {
         // 检查指令是谁发出的
         if (!(commandSender instanceof Player)){
             commandSender.sendMessage(ChatColor.RED + "This command is only allowed for players to use! Not available in console!");
+            return true;
         }
 
         // 如果是玩家
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
+
+            // 检查玩家是否有权限
+            if (!player.hasPermission("fantp.tp")){
+                player.sendMessage(ChatColor.RED + "没有权限！");
+                return true;
+            }
             // 打开传送菜单
             Inventory menu = plugin.getMenu();
             if (menu != null) {

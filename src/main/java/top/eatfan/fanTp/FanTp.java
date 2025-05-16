@@ -20,6 +20,8 @@ public final class FanTp extends JavaPlugin {
 
         menu = new Menu();
 
+        menu.init();
+
         getLogger().info("插件启动完毕");
     }
 
@@ -36,6 +38,6 @@ public final class FanTp extends JavaPlugin {
     }
 
     public Inventory getMenu(){
-        return null;
+        return menu.getInventory();
     }
 }
