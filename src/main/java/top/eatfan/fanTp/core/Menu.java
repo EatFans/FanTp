@@ -1,10 +1,8 @@
 package top.eatfan.fanTp.core;
 
-import com.sun.tools.javac.jvm.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -76,6 +74,12 @@ public class Menu {
 
     }
 
+    /**
+     * 创建带有名字的物品
+     * @param item 物品
+     * @param displayName 名字
+     * @return 物品
+     */
     private ItemMeta createNamedItem(ItemStack item, String displayName) {
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
@@ -187,6 +191,11 @@ public class Menu {
         player.openInventory(inventory);
     }
 
+    /**
+     * 创建上一页按钮
+     * @param isEnabled 是否启用
+     * @return 上一页按钮物品
+     */
     private ItemStack createLastPageButton(boolean isEnabled) {
         Material material = isEnabled ? Material.GREEN_STAINED_GLASS_PANE : Material.GRAY_STAINED_GLASS_PANE;
         ChatColor color = isEnabled ? ChatColor.GREEN : ChatColor.RED;
@@ -201,6 +210,11 @@ public class Menu {
         return itemStack;
     }
 
+    /**
+     * 创建下一页按钮
+     * @param isEnabled 是否启用
+     * @return 下一页按钮物品
+     */
     private ItemStack createNextPageButton(boolean isEnabled) {
         Material material = isEnabled ? Material.GREEN_STAINED_GLASS_PANE : Material.GRAY_STAINED_GLASS_PANE;
         ChatColor color = isEnabled ? ChatColor.GREEN : ChatColor.RED;
@@ -215,6 +229,12 @@ public class Menu {
         return itemStack;
     }
 
+    /**
+     * 测试使用，创建测试头颅
+     * @param name name
+     * @return 物品
+     */
+    @Deprecated
     private ItemStack createFakePlayerHead(String name){
         ItemStack playerHead;
         try {
@@ -273,9 +293,6 @@ public class Menu {
         }
     }
 
-
-
-
     /**
      * 是否点击关闭按钮
      * @param itemStack 物品
@@ -330,27 +347,50 @@ public class Menu {
         return playerHead;
     }
 
-
+    /**
+     * 获取容器
+     * @return 容器
+     */
     public Inventory getInventory(){
         return inventory;
     }
 
+    /**
+     * 按钮是否启用
+     * @return 是否启用
+     */
     public boolean isEnableLastPageButton() {
         return isEnableLastPageButton;
     }
 
+    /**
+     * 按钮是否启用
+     * @return boolean
+     */
     public boolean isEnableNextPageButton() {
         return isEnableNextPageButton;
     }
 
+    /**
+     * 获取关闭按钮
+     * @return 物品
+     */
     public ItemStack getCloseButton(){
         return closeButton;
     }
 
+    /**
+     * 获取上一页按钮
+     * @return 物品
+     */
     public ItemStack getLastPageButton(){
         return lastPageButton;
     }
 
+    /**
+     * 获取下一页按钮
+     * @return 物品
+     */
     public ItemStack getNextPageButton(){
         return nextPageButton;
     }
@@ -364,6 +404,10 @@ public class Menu {
         return menuPlayerItems.get(itemStack);
     }
 
+    /**
+     * 设置容器
+     * @param inventory 容器
+     */
     public void setInventory(Inventory inventory){
         this.inventory = inventory;
     }

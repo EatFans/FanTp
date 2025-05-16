@@ -5,6 +5,11 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 菜单管理类
+ *
+ * @author Fan
+ */
 public class MenuManager {
     private final Map<Player, Menu> playerMenuMap = new HashMap<>();
 
