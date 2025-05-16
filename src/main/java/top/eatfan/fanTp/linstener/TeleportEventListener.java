@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import top.eatfan.fanTp.FanTp;
+import top.eatfan.fanTp.event.TeleportAgreeEvent;
+import top.eatfan.fanTp.event.TeleportDenyEvent;
 import top.eatfan.fanTp.event.TeleportRequestSendEvent;
 
 import java.util.ArrayList;
@@ -73,6 +75,28 @@ public class TeleportEventListener implements Listener {
 
         targetPlayer.spigot().sendMessage(fullMessage);
         targetPlayer.sendMessage(" ");
+    }
+
+    /**
+     * 玩家同意传送请求事件处理
+     * @param event 传送请求同意事件
+     */
+    @EventHandler
+    public void onPlayerAgreeTeleportRequest(TeleportAgreeEvent event){
+        Player targetPlayer = event.getTargetPlayer();
+
+        targetPlayer.sendMessage("同意");
+    }
+
+    /**
+     * 玩家拒绝传送请求事件处理
+     * @param event 传送拒绝请求
+     */
+    @EventHandler
+    public void onPlayerDenyTeleportRequest(TeleportDenyEvent event){
+        Player targetPlayer = event.getTargetPlayer();
+
+        targetPlayer.sendMessage("拒绝");
     }
 
 }
