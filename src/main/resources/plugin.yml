@@ -1,6 +1,7 @@
 name: FanTp
 version: '1.0.0'
 main: top.eatfan.fanTp.FanTp
-api-version: '1.20'
 authors: [ EatFan ]
 description: A simpler and faster player teleportation plug-in
+
+commands:
