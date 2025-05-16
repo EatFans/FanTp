@@ -9,12 +9,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import top.eatfan.fanTp.FanTp;
+import top.eatfan.fanTp.core.TeleportRequestManager;
 import top.eatfan.fanTp.event.TeleportAgreeEvent;
 import top.eatfan.fanTp.event.TeleportDenyEvent;
 import top.eatfan.fanTp.event.TeleportRequestSendEvent;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 传送事件监听器
@@ -85,7 +84,18 @@ public class TeleportEventListener implements Listener {
     public void onPlayerAgreeTeleportRequest(TeleportAgreeEvent event){
         Player targetPlayer = event.getTargetPlayer();
 
-        targetPlayer.sendMessage("同意");
+        // 从传送请求管理获取传送请求发送者
+        TeleportRequestManager teleportRequestManager = plugin.getTeleportRequestManager();
+        Player sender = teleportRequestManager.getSender(targetPlayer);
+
+        // 将发送者传送到接受者
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&a玩家 " + targetPlayer.getName() + " 同意了你的传送请求！"));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&a传送中..."));
+        sender.teleport(targetPlayer);
+
+        // 删除传送请求记录
+        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',"&a已经同意玩家 "+ sender.getName() + " 的传送请求！"));
+        teleportRequestManager.removeRequest(targetPlayer);
     }
 
     /**
@@ -96,7 +106,16 @@ public class TeleportEventListener implements Listener {
     public void onPlayerDenyTeleportRequest(TeleportDenyEvent event){
         Player targetPlayer = event.getTargetPlayer();
 
-        targetPlayer.sendMessage("拒绝");
+        // 从传送请求管理器获取传送请求发送者
+        TeleportRequestManager teleportRequestManager = plugin.getTeleportRequestManager();
+        Player sender = teleportRequestManager.getSender(targetPlayer);
+
+        // 发送消息
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&c玩家 "+targetPlayer.getName() + " 拒绝了你的传送请求！"));
+        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',"&c已经拒绝了玩家 " + sender.getName() + " 的传送请求！" ));
+        // 删除传送请求记录
+        teleportRequestManager.removeRequest(targetPlayer);
+
     }
 
 }

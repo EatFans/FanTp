@@ -1,5 +1,6 @@
 package top.eatfan.fanTp.core;
 
+import com.sun.tools.javac.jvm.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -72,6 +73,7 @@ public class Menu {
             inventory.setItem(i, decorativeBoard);
         for (int i = 24; i <= 26; i++)
             inventory.setItem(i,decorativeBoard);
+
     }
 
     private ItemMeta createNamedItem(ItemStack item, String displayName) {
@@ -119,24 +121,145 @@ public class Menu {
             inventory.setItem(i - startIndex, playerHead);
         }
 
-        // TODO 如果玩家数量大于18，就需要分页处理
 
         player.openInventory(inventory);
     }
 
+    public void openTest(Player player){
+        // 清除界面中的玩家物品和映射
+        for (int i = 0; i <= 17; i++)
+            inventory.setItem(i, null);
+
+        menuPlayerItems.clear();
+        // 使用模拟玩家数据测试分页功能
+        onlinePlayers.clear();
+        for (int i = 1; i <= 40; i++) {  // 模拟40个玩家
+            // 创建模拟的离线玩家对象，仅用于显示，不用于传送
+            Player fakePlayer = Bukkit.getPlayerExact("测试玩家" + i); // 可返回null
+            onlinePlayers.add(fakePlayer); // 插入null没关系，稍后头颅用名称代替
+        }
+
+        // 分页参数
+        int itemsPerPage = 18;
+        totalPage = (int) Math.ceil(onlinePlayers.size() / (double) itemsPerPage);
+        if (totalPage <= 0) totalPage = 1;
+
+        if (currentPage < 1) currentPage = 1;
+        if (currentPage > totalPage) currentPage = totalPage;
+
+        int startIndex = (currentPage - 1) * itemsPerPage;
+        int endIndex = Math.min(startIndex + itemsPerPage, onlinePlayers.size());
+
+        // 创建模拟的玩家头像
+        for (int i = startIndex; i < endIndex; i++){
+            Player target = onlinePlayers.get(i);
+            ItemStack playerHead = createFakePlayerHead("测试玩家" + (i + 1));
+            menuPlayerItems.put(playerHead, target); // target 为 null 也没关系
+            inventory.setItem(i - startIndex, playerHead);
+        }
+
+        // 如果当前页大于1，上一页按钮启用
+        isEnableLastPageButton = currentPage > 1;
+
+        //启用下一页按钮
+        isEnableNextPageButton = totalPage > 1 && currentPage >= 1 && currentPage < totalPage;
+
+        lastPageButton = createLastPageButton(isEnableLastPageButton);
+        nextPageButton = createNextPageButton(isEnableNextPageButton);
+        inventory.setItem(LAST_PAGE_BUTTON_INDEX,lastPageButton);
+        inventory.setItem(NEXT_PAGE_BUTTON_INDEX,nextPageButton);
+
+        player.openInventory(inventory);
+    }
+
+    private ItemStack createLastPageButton(boolean isEnabled) {
+        Material material = isEnabled ? Material.GREEN_STAINED_GLASS_PANE : Material.GRAY_STAINED_GLASS_PANE;
+        ChatColor color = isEnabled ? ChatColor.GREEN : ChatColor.RED;
+        String displayName = color + "上一页";
+
+        ItemStack itemStack = new ItemStack(material, 1);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta != null) {
+            itemMeta.setDisplayName(displayName);
+            itemStack.setItemMeta(itemMeta);
+        }
+        return itemStack;
+    }
+
+    private ItemStack createNextPageButton(boolean isEnabled) {
+        Material material = isEnabled ? Material.GREEN_STAINED_GLASS_PANE : Material.GRAY_STAINED_GLASS_PANE;
+        ChatColor color = isEnabled ? ChatColor.GREEN : ChatColor.RED;
+        String displayName = color + "下一页";
+
+        ItemStack itemStack = new ItemStack(material, 1);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta != null) {
+            itemMeta.setDisplayName(displayName);
+            itemStack.setItemMeta(itemMeta);
+        }
+        return itemStack;
+    }
+
+    private ItemStack createFakePlayerHead(String name){
+        ItemStack playerHead;
+        try {
+            playerHead = new ItemStack(Material.valueOf("PLAYER_HEAD"));
+        } catch (IllegalArgumentException e) {
+            playerHead = new ItemStack(Material.valueOf("SKULL_ITEM"), 1, (short) 3);
+        }
+
+        ItemMeta meta = playerHead.getItemMeta();
+        if (meta instanceof SkullMeta){
+            SkullMeta skullMeta = (SkullMeta) meta;
+            skullMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&',"&f&l[ &e" + name + " &f&l]"));
+            List<String> lore = new ArrayList<>();
+            lore.add(ChatColor.GRAY + "这是一个测试玩家");
+            skullMeta.setLore(lore);
+            playerHead.setItemMeta(skullMeta);
+        }
+        return playerHead;
+    }
+
+
+    /**
+     * 刷新菜单界面
+     * @param viewer 当前查看菜单的玩家
+     */
+    private void refreshMenu(Player viewer) {
+        openTest(viewer); // 复用 open 方法重新渲染菜单 TODO:测试
+    }
+
     /**
      * 切换到上一页
+     * @param viewer 打开菜单的玩家
      */
-    public void toLastPage(){
+    public void toLastPage(Player viewer){
+        if (currentPage > 1) {
+            currentPage--;
+            isEnableLastPageButton = true;
 
+            refreshMenu(viewer);
+        } else {
+            isEnableLastPageButton = false;
+            viewer.sendMessage(ChatColor.RED + "已经是第一页了！");
+        }
     }
 
     /**
      * 切换到下一页
+     * @param viewer 打开菜单的玩家
      */
-    public void toNextPage(){
-
+    public void toNextPage(Player viewer){
+        if (currentPage < totalPage) {
+            currentPage++;
+            refreshMenu(viewer);
+        } else {
+            viewer.sendMessage(ChatColor.RED + "已经是最后一页了！");
+        }
     }
+
+
+
 
     /**
      * 是否点击关闭按钮
@@ -145,6 +268,24 @@ public class Menu {
      */
     public boolean isClickCloseButton(ItemStack itemStack){
         return closeButton.equals(itemStack);
+    }
+
+    /**
+     * 是否为上一页按钮
+     * @param itemStack 物品
+     * @return
+     */
+    public boolean isLastPageButton(ItemStack itemStack){
+        return lastPageButton.equals(itemStack);
+    }
+
+    /**
+     * 是否为下一页按钮
+     * @param itemStack 物品
+     * @return
+     */
+    public boolean isNextPageButton(ItemStack itemStack){
+        return nextPageButton.equals(itemStack);
     }
 
 
@@ -191,6 +332,14 @@ public class Menu {
         return closeButton;
     }
 
+    public ItemStack getLastPageButton(){
+        return lastPageButton;
+    }
+
+    public ItemStack getNextPageButton(){
+        return nextPageButton;
+    }
+
     /**
      * 通过玩家头，来获取目标玩家
      * @param itemStack 玩家头物品
@@ -198,5 +347,9 @@ public class Menu {
      */
     public Player getTargetPlayer(ItemStack itemStack){
         return menuPlayerItems.get(itemStack);
+    }
+
+    public void setInventory(Inventory inventory){
+        this.inventory = inventory;
     }
 }

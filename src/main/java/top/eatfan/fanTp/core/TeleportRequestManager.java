@@ -43,4 +43,13 @@ public class TeleportRequestManager {
     public Player getSender(Player targetPlayer){
         return teleportRequests.get(targetPlayer);
     }
+
+    /**
+     * 检查目标玩家是否已经存在传送请求
+     * @param targetPlayer 接受目标者
+     * @return 如果有就返回true，否则就返回false
+     */
+    public boolean hasRequest(Player targetPlayer){
+        return teleportRequests.containsKey(targetPlayer);
+    }
 }

@@ -43,7 +43,7 @@ public class MainCommand implements CommandExecutor {
             Menu menu = new Menu();
             player.sendMessage(ChatColor.GREEN + "你打开了传送菜单！");
             plugin.getMenuManager().setPlayerMenu(player,menu);
-            menu.open(player);
+            menu.openTest(player); //TODO:测试
         } else if (args.length == 1){
             if (args[0].equals("yes")){
                 plugin.getLogger().info("Player "+player.getName() + " agree teleport request.");

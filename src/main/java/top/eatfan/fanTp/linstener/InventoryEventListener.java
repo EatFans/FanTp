@@ -1,9 +1,5 @@
 package top.eatfan.fanTp.linstener;
 
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,6 +14,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import top.eatfan.fanTp.FanTp;
 import top.eatfan.fanTp.core.Menu;
+import top.eatfan.fanTp.core.MenuManager;
 import top.eatfan.fanTp.event.TeleportRequestSendEvent;
 
 /**
@@ -112,6 +109,7 @@ public class InventoryEventListener implements Listener {
         Inventory clickedInventory = event.getClickedInventory();
         Inventory inventory = event.getInventory();
         ItemStack currentItem = event.getCurrentItem();
+        MenuManager menuManager = plugin.getMenuManager();
         if (humanEntity instanceof Player){
             Player player = (Player) humanEntity;
 
@@ -120,25 +118,50 @@ public class InventoryEventListener implements Listener {
                 if (menu.getInventory().equals(inventory) &&
                         menu.getInventory().equals(clickedInventory)){
 
+                    if (currentItem == null)
+                        return;
+
                     // 检查是否点击关闭按钮
                     if (menu.isClickCloseButton(currentItem)){
                         player.closeInventory();
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&',"关闭了传送菜单"));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&c关闭了传送菜单"));
+                        event.setCancelled(true);
+                        return;
                     }
 
                     // 检查是否点击上一页
+                    if (menu.isLastPageButton(currentItem)){
+                        menu.toLastPage(player);
+                        menuManager.setPlayerMenu(player,menu);
+                        event.setCancelled(true);
+                        return;
+                    }
 
                     // 检查是否点击下一页
+                    if (menu.isNextPageButton(currentItem)) {
+                        menu.toNextPage(player);
+                        menuManager.setPlayerMenu(player,menu);
+                        event.setCancelled(true);
+                        return;
+                    }
 
                     // 检查是否点击头颅物品
-                    if (currentItem != null && currentItem.getType() == Material.PLAYER_HEAD) {
+                    if (currentItem.getType() == Material.PLAYER_HEAD) {
                         Player targetPlayer = menu.getTargetPlayer(currentItem);
                         if (targetPlayer != null) {
                             // 触发传送请求发送事件
                             player.closeInventory();
+                            // 检查目标是否存在传送请求
+                            if (plugin.getTeleportRequestManager().hasRequest(targetPlayer)){
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&c玩家 "+targetPlayer.getName() + " 存在没处理的传送请求！无法传送！"));
+                                return;
+                            }
                             TeleportRequestSendEvent teleportRequestSendEvent = new TeleportRequestSendEvent(player, targetPlayer);
                             Bukkit.getPluginManager().callEvent(teleportRequestSendEvent);
                             plugin.getLogger().info("Player " + player.getName() + " sent a teleport request to " + targetPlayer.getName());
+                        } else {
+                            event.setCancelled(true);
+
                         }
 
                     }
