@@ -121,10 +121,25 @@ public class Menu {
             inventory.setItem(i - startIndex, playerHead);
         }
 
+        // 如果当前页大于1，上一页按钮启用
+        isEnableLastPageButton = currentPage > 1;
+
+        //启用下一页按钮
+        isEnableNextPageButton = totalPage > 1 && currentPage >= 1 && currentPage < totalPage;
+
+        lastPageButton = createLastPageButton(isEnableLastPageButton);
+        nextPageButton = createNextPageButton(isEnableNextPageButton);
+        inventory.setItem(LAST_PAGE_BUTTON_INDEX,lastPageButton);
+        inventory.setItem(NEXT_PAGE_BUTTON_INDEX,nextPageButton);
 
         player.openInventory(inventory);
     }
 
+    /**
+     * 测试方法
+     * @param player 玩家
+     */
+    @Deprecated
     public void openTest(Player player){
         // 清除界面中的玩家物品和映射
         for (int i = 0; i <= 17; i++)
@@ -226,7 +241,7 @@ public class Menu {
      * @param viewer 当前查看菜单的玩家
      */
     private void refreshMenu(Player viewer) {
-        openTest(viewer); // 复用 open 方法重新渲染菜单 TODO:测试
+        open(viewer); // 复用 open 方法重新渲染菜单
     }
 
     /**
