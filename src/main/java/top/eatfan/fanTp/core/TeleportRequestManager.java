@@ -35,5 +35,12 @@ public class TeleportRequestManager {
         teleportRequests.remove(targetPlayer);
     }
 
-
+    /**
+     * 获取请求发送者
+     * @param targetPlayer 请求接受者
+     * @return 返回请求发送者
+     */
+    public Player getSender(Player targetPlayer){
+        return teleportRequests.get(targetPlayer);
+    }
 }
