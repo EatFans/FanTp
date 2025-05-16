@@ -7,7 +7,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import top.eatfan.fanTp.FanTp;
+import top.eatfan.fanTp.Menu;
 
+/**
+ * 主要的指令处理器类
+ */
 public class MainCommand implements CommandExecutor {
 
     private final FanTp plugin;
@@ -34,12 +38,11 @@ public class MainCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.RED + "没有权限！");
                 return true;
             }
-            // 打开传送菜单
-            Inventory menu = plugin.getMenu();
-            if (menu != null) {
-                player.sendMessage(ChatColor.GREEN + "你打开了传送菜单！");
-                player.openInventory(menu);
-            }
+            // 新创一个自己的传送菜单，在菜单关闭时候删除
+            Menu menu = new Menu();
+            player.sendMessage(ChatColor.GREEN + "你打开了传送菜单！");
+            plugin.getMenuManager().setPlayerMenu(player,menu);
+            menu.open(player);
         }
 
         return true;
