@@ -88,6 +88,12 @@ public class TeleportEventListener implements Listener {
         TeleportRequestManager teleportRequestManager = plugin.getTeleportRequestManager();
         Player sender = teleportRequestManager.getSender(targetPlayer);
 
+        // 检查sender是否存在，如果不存在，就表明没有这个传送请求
+        if (sender == null){
+            targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',"&c不存在需要处理的传送请求！"));
+            return;
+        }
+
         // 将发送者传送到接受者
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&a玩家 " + targetPlayer.getName() + " 同意了你的传送请求！"));
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&a传送中..."));
@@ -109,6 +115,12 @@ public class TeleportEventListener implements Listener {
         // 从传送请求管理器获取传送请求发送者
         TeleportRequestManager teleportRequestManager = plugin.getTeleportRequestManager();
         Player sender = teleportRequestManager.getSender(targetPlayer);
+
+        // 检查sender是否存在，如果不存在，就表明没有这个传送请求
+        if (sender == null){
+            targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',"&c不存在需要处理的传送请求！"));
+            return;
+        }
 
         // 发送消息
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&c玩家 "+targetPlayer.getName() + " 拒绝了你的传送请求！"));
