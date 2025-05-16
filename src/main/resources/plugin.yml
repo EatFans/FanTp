@@ -5,3 +5,9 @@ authors: [ EatFan ]
 description: A simpler and faster player teleportation plug-in
 
 commands:
+  tpa:
+    description: main command
+    usage: /tpa
+  t:
+    description: main command
+    usage: /t
