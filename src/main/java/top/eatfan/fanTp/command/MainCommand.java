@@ -49,12 +49,10 @@ public class MainCommand implements CommandExecutor {
                 plugin.getLogger().info("Player "+player.getName() + " agree teleport request.");
                 TeleportAgreeEvent teleportAgreeEvent = new TeleportAgreeEvent(player);
                 Bukkit.getPluginManager().callEvent(teleportAgreeEvent);
-//                player.sendMessage("同意");
             } else if (args[0].equals("no")){
                 plugin.getLogger().info("Player "+player.getName() + " deny teleport request.");
                 TeleportDenyEvent teleportDenyEvent = new TeleportDenyEvent(player);
                 Bukkit.getPluginManager().callEvent(teleportDenyEvent);
-//                player.sendMessage("拒绝");
             }
 
         }
