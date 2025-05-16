@@ -1,4 +1,4 @@
-package top.eatfan.fanTp;
+package top.eatfan.fanTp.core;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,7 +11,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 传送列表菜单
@@ -36,6 +38,7 @@ public class Menu {
 
     private final List<Player> onlinePlayers = new ArrayList<>();
 
+    private final Map<ItemStack,Player> menuPlayerItems = new HashMap<>(); // 玩家物品
     private Inventory inventory;  // 菜单的容器
 
     public Menu(){
@@ -111,7 +114,9 @@ public class Menu {
         // 创建在线玩家物品
         for (int i = startIndex; i < endIndex; i++){
             Player target = onlinePlayers.get(i);
-            inventory.setItem(i - startIndex, createPlayerHead(target));
+            ItemStack playerHead = createPlayerHead(target);
+            menuPlayerItems.put(playerHead,target);
+            inventory.setItem(i - startIndex, playerHead);
         }
 
         // TODO 如果玩家数量大于18，就需要分页处理
@@ -119,12 +124,27 @@ public class Menu {
         player.openInventory(inventory);
     }
 
-    public void clickLastPageButton(){
+    /**
+     * 切换到上一页
+     */
+    public void toLastPage(){
 
     }
 
-    public void clickNextPageButton(){
+    /**
+     * 切换到下一页
+     */
+    public void toNextPage(){
 
+    }
+
+    /**
+     * 是否点击关闭按钮
+     * @param itemStack 物品
+     * @return
+     */
+    public boolean isClickCloseButton(ItemStack itemStack){
+        return closeButton.equals(itemStack);
     }
 
 
@@ -165,5 +185,18 @@ public class Menu {
 
     public boolean isEnableNextPageButton() {
         return isEnableNextPageButton;
+    }
+
+    public ItemStack getCloseButton(){
+        return closeButton;
+    }
+
+    /**
+     * 通过玩家头，来获取目标玩家
+     * @param itemStack 玩家头物品
+     * @return 目标玩家
+     */
+    public Player getTargetPlayer(ItemStack itemStack){
+        return menuPlayerItems.get(itemStack);
     }
 }

@@ -1,4 +1,4 @@
-package top.eatfan.fanTp;
+package top.eatfan.fanTp.core;
 
 import org.bukkit.entity.Player;
 
@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MenuManager {
-    private final Map<Player,Menu> playerMenuMap = new HashMap<>();
+    private final Map<Player, Menu> playerMenuMap = new HashMap<>();
 
     public void setPlayerMenu(Player player, Menu menu){
         playerMenuMap.put(player,menu);
