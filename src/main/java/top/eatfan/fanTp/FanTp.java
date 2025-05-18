@@ -38,6 +38,7 @@ public final class FanTp extends JavaPlugin {
         teleportRequestManager = new TeleportRequestManager(this);
 
         getLogger().info("插件启动完毕");
+
     }
 
     @Override

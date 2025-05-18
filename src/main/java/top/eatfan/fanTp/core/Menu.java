@@ -8,11 +8,13 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import top.eatfan.fanTp.FanTp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 传送列表菜单
@@ -41,7 +43,9 @@ public class Menu {
     private Inventory inventory;  // 菜单的容器
 
     public Menu(){
-        inventory = Bukkit.createInventory(null,27, ChatColor.translateAlternateColorCodes('&',"&a&l传送列表"));
+        FanTp plugin = FanTp.getInstance();
+        inventory = Bukkit.createInventory(null,27, ChatColor.translateAlternateColorCodes('&',
+                plugin.getConfigManager().getLangConfig().getTpMenuName()));
         decorativeBoard = new ItemStack(Material.BLACK_STAINED_GLASS_PANE,1);
         lastPageButton = new ItemStack(Material.GRAY_STAINED_GLASS_PANE,1);
         nextPageButton = new ItemStack(Material.GRAY_STAINED_GLASS_PANE,1);
@@ -59,9 +63,12 @@ public class Menu {
      */
     private void initMenuContent(){
         decorativeBoard.setItemMeta(createNamedItem(decorativeBoard," "));
-        lastPageButton.setItemMeta(createNamedItem(lastPageButton,"&c上一页"));
-        nextPageButton.setItemMeta(createNamedItem(nextPageButton,"&c下一页"));
-        closeButton.setItemMeta(createNamedItem(closeButton,"&c关闭"));
+        lastPageButton.setItemMeta(createNamedItem(lastPageButton,"&c" +
+                FanTp.getInstance().getConfigManager().getLangConfig().getTpMenuLastButton()));
+        nextPageButton.setItemMeta(createNamedItem(nextPageButton,"&c"+
+                FanTp.getInstance().getConfigManager().getLangConfig().getTpMenuNextButton()));
+        closeButton.setItemMeta(createNamedItem(closeButton,"&c" +
+                FanTp.getInstance().getConfigManager().getLangConfig().getTpMenuCloseButton()));
 
         inventory.setItem(LAST_PAGE_BUTTON_INDEX,lastPageButton);
         inventory.setItem(NEXT_PAGE_BUTTON_INDEX,nextPageButton);
@@ -199,7 +206,7 @@ public class Menu {
     private ItemStack createLastPageButton(boolean isEnabled) {
         Material material = isEnabled ? Material.GREEN_STAINED_GLASS_PANE : Material.GRAY_STAINED_GLASS_PANE;
         ChatColor color = isEnabled ? ChatColor.GREEN : ChatColor.RED;
-        String displayName = color + "上一页";
+        String displayName = color + FanTp.getInstance().getConfigManager().getLangConfig().getTpMenuLastButton();
 
         ItemStack itemStack = new ItemStack(material, 1);
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -218,7 +225,7 @@ public class Menu {
     private ItemStack createNextPageButton(boolean isEnabled) {
         Material material = isEnabled ? Material.GREEN_STAINED_GLASS_PANE : Material.GRAY_STAINED_GLASS_PANE;
         ChatColor color = isEnabled ? ChatColor.GREEN : ChatColor.RED;
-        String displayName = color + "下一页";
+        String displayName = color + FanTp.getInstance().getConfigManager().getLangConfig().getTpMenuNextButton();
 
         ItemStack itemStack = new ItemStack(material, 1);
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -276,7 +283,8 @@ public class Menu {
             refreshMenu(viewer);
         } else {
             isEnableLastPageButton = false;
-            viewer.sendMessage(ChatColor.RED + "已经是第一页了！");
+            viewer.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    FanTp.getInstance().getConfigManager().getLangConfig().getIsFirstPage()));
         }
     }
 
@@ -289,7 +297,8 @@ public class Menu {
             currentPage++;
             refreshMenu(viewer);
         } else {
-            viewer.sendMessage(ChatColor.RED + "已经是最后一页了！");
+            viewer.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    FanTp.getInstance().getConfigManager().getLangConfig().getIsEndPage()));
         }
     }
 
@@ -339,9 +348,11 @@ public class Menu {
             SkullMeta skullMeta = (SkullMeta) meta;
             skullMeta.setOwningPlayer(player);
             skullMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&',"&f&l[ &a"+player.getDisplayName() + " &f&l]"));
-            List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "点击传送到该玩家");
-            skullMeta.setLore(lore);
+            List<String> rawLore = FanTp.getInstance().getConfigManager().getLangConfig().getTpMenuHeadLore();
+            List<String> coloredLore = rawLore.stream()
+                    .map(line -> ChatColor.translateAlternateColorCodes('&', line))
+                    .collect(Collectors.toList());
+            skullMeta.setLore(coloredLore);
             playerHead.setItemMeta(skullMeta);
         }
         return playerHead;

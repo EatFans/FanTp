@@ -7,20 +7,19 @@ import org.bukkit.configuration.file.FileConfiguration;
  *
  * @author Fan
  */
-public class Config {
-    private final FileConfiguration fileConfiguration;
+public class Config extends BaseConfig{
 
     private int requestTimeout;
 
     public Config(FileConfiguration fileConfiguration){
-        this.fileConfiguration = fileConfiguration;
-        init();
+        super(fileConfiguration);
     }
 
     /**
      * 初始化数据
      */
-    private void init(){
+    @Override
+    protected void init(){
         requestTimeout = fileConfiguration.getInt("request-timeout");
     }
 

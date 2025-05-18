@@ -124,7 +124,8 @@ public class MenuEventListener implements Listener {
                     // 检查是否点击关闭按钮
                     if (menu.isClickCloseButton(currentItem)){
                         player.closeInventory();
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&c关闭了传送菜单"));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                                plugin.getConfigManager().getLangConfig().getCloseTpMenu()));
                         event.setCancelled(true);
                         return;
                     }
@@ -153,7 +154,8 @@ public class MenuEventListener implements Listener {
                             player.closeInventory();
                             // 检查目标是否存在传送请求
                             if (plugin.getTeleportRequestManager().hasRequest(targetPlayer)){
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&c玩家 "+targetPlayer.getName() + " 存在没处理的传送请求！无法传送！"));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                                        plugin.getConfigManager().getLangConfig().getNotProcessedTpRequest()));
                                 return;
                             }
                             TeleportRequestSendEvent teleportRequestSendEvent = new TeleportRequestSendEvent(player, targetPlayer);
