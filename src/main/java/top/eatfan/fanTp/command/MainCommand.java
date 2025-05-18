@@ -36,12 +36,14 @@ public class MainCommand implements CommandExecutor {
         if (args.length == 0){
             // 检查玩家是否有权限
             if (!player.hasPermission("fantp.tp")){
-                player.sendMessage(ChatColor.RED + "没有权限！");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        plugin.getConfigManager().getLangConfig().getNoPermission()));
                 return true;
             }
             // 新创一个自己的传送菜单，在菜单关闭时候删除
             Menu menu = new Menu();
-            player.sendMessage(ChatColor.GREEN + "你打开了传送菜单！");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    plugin.getConfigManager().getLangConfig().getOpenTpMenu()));
             plugin.getMenuManager().setPlayerMenu(player,menu);
             menu.open(player);
         } else if (args.length == 1){

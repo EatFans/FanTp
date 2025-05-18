@@ -40,28 +40,36 @@ public class TeleportEventListener implements Listener {
         // 创建传送请求
         plugin.getTeleportRequestManager().addRequest(sender,targetPlayer);
 
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&a已经向 &f&l" + targetPlayer.getName() + " &a发送了传送请求！"));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                plugin.getConfigManager().getLangConfig().getSendTpRequest()));
 
         targetPlayer.sendMessage(" ");
-        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',"&a玩家 &f&l" + sender.getName() + " &a请求传送到你的位置，是否接受？"));
+        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                plugin.getConfigManager().getLangConfig().getPrefix()
+                +"&a" + sender.getName() +
+                plugin.getConfigManager().getLangConfig().getReceiveTpRequest()));
         targetPlayer.sendMessage(" ");
 
         TextComponent space = new TextComponent("  "); // 两个空格
-        TextComponent agree = new TextComponent("[ 同意 ]");
+        TextComponent agree = new TextComponent(plugin.getConfigManager().getLangConfig().getChatAgreeButton());
         agree.setColor(net.md_5.bungee.api.ChatColor.GREEN);
         agree.setBold(true);
         agree.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/tpa yes"));
         agree.setHoverEvent(new HoverEvent(
                 HoverEvent.Action.SHOW_TEXT,
-                new ComponentBuilder("点击以接受传送请求").color(net.md_5.bungee.api.ChatColor.YELLOW).create()
+                new ComponentBuilder(
+                        plugin.getConfigManager().getLangConfig().getChatAgreeButtonHover()
+                ).color(net.md_5.bungee.api.ChatColor.YELLOW).create()
         ));
-        TextComponent deny = new TextComponent("[ 拒绝 ]");
+        TextComponent deny = new TextComponent(plugin.getConfigManager().getLangConfig().getChatDenyButton());
         deny.setColor(net.md_5.bungee.api.ChatColor.RED);
         deny.setBold(true);
         deny.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/tpa no"));
         deny.setHoverEvent(new HoverEvent(
                 HoverEvent.Action.SHOW_TEXT,
-                new ComponentBuilder("点击以拒绝传送请求").color(net.md_5.bungee.api.ChatColor.YELLOW).create()
+                new ComponentBuilder(
+                        plugin.getConfigManager().getLangConfig().getChatDenyButtonHover()
+                ).color(net.md_5.bungee.api.ChatColor.YELLOW).create()
                 ));
 
         TextComponent fullMessage = new TextComponent();
@@ -90,17 +98,19 @@ public class TeleportEventListener implements Listener {
 
         // 检查sender是否存在，如果不存在，就表明没有这个传送请求
         if (sender == null){
-            targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',"&c不存在需要处理的传送请求！"));
+            targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    plugin.getConfigManager().getLangConfig().getNoTpRequest()));
             return;
         }
 
         // 将发送者传送到接受者
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&a玩家 " + targetPlayer.getName() + " 同意了你的传送请求！"));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&a传送中..."));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                plugin.getConfigManager().getLangConfig().getOtherAgreeTpRequest()));
         sender.teleport(targetPlayer);
 
         // 删除传送请求记录
-        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',"&a已经同意玩家 "+ sender.getName() + " 的传送请求！"));
+        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                plugin.getConfigManager().getLangConfig().getAgreeTpRequest()));
         teleportRequestManager.removeRequest(targetPlayer);
     }
 
@@ -118,13 +128,16 @@ public class TeleportEventListener implements Listener {
 
         // 检查sender是否存在，如果不存在，就表明没有这个传送请求
         if (sender == null){
-            targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',"&c不存在需要处理的传送请求！"));
+            targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    plugin.getConfigManager().getLangConfig().getNoTpRequest()));
             return;
         }
 
         // 发送消息
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&c玩家 "+targetPlayer.getName() + " 拒绝了你的传送请求！"));
-        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',"&c已经拒绝了玩家 " + sender.getName() + " 的传送请求！" ));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                plugin.getConfigManager().getLangConfig().getOtherDenyTpRequest()));
+        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                plugin.getConfigManager().getLangConfig().getDenyTpRequest()));
         // 删除传送请求记录
         teleportRequestManager.removeRequest(targetPlayer);
 

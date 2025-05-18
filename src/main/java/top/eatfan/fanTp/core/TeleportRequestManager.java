@@ -38,12 +38,12 @@ public class TeleportRequestManager {
                 // 判断发送者是否存在是否在线
                 if (requester != null && requester.isOnline()){
                     requester.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            "&c你向玩家 " +targetPlayer.getName() + " 发送的传送请求已经过期!"));
+                            plugin.getConfigManager().getLangConfig().getTpRequestTimeoutA()));
                 }
                 // 判断目标玩家是否在线
                 if (targetPlayer.isOnline()){
                     targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            "&c来自 " + (requester != null ? requester.getName() : "未知玩家") + " 的传送请求已过期！"));
+                            plugin.getConfigManager().getLangConfig().getTpRequestTimeoutB()));
                 }
                 // 移除请求
                 removeRequest(targetPlayer);
