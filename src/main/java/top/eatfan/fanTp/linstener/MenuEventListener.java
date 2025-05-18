@@ -23,12 +23,12 @@ import top.eatfan.fanTp.event.TeleportRequestSendEvent;
  *
  * @author Fan
  */
-public class InventoryEventListener implements Listener {
+public class MenuEventListener implements Listener {
 
     private final FanTp plugin;
     private boolean isEnableClick;
 
-    public InventoryEventListener(FanTp plugin){
+    public MenuEventListener(FanTp plugin){
         this.plugin = plugin;
         isEnableClick = false;
     }
@@ -173,6 +173,5 @@ public class InventoryEventListener implements Listener {
 
         }
     }
-
 
 }
