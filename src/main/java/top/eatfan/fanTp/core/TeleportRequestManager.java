@@ -1,6 +1,9 @@
 package top.eatfan.fanTp.core;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import top.eatfan.fanTp.FanTp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +17,10 @@ public class TeleportRequestManager {
 
     private final Map<Player,Player> teleportRequests = new HashMap<>();  // 接受者为key，发送者为value
 
-    public TeleportRequestManager(){
+    private FanTp plugin;
 
+    public TeleportRequestManager(FanTp plugin){
+        this.plugin = plugin;
     }
 
     /**
@@ -25,6 +30,25 @@ public class TeleportRequestManager {
      */
     public void addRequest(Player sender, Player targetPlayer){
         teleportRequests.put(targetPlayer,sender);
+
+        // 设置请求失效时间 默认二分钟
+        Bukkit.getScheduler().runTaskLater(plugin, () ->{
+            if (hasRequest(targetPlayer)){
+                Player requester = getSender(targetPlayer);
+                // 判断发送者是否存在是否在线
+                if (requester != null && requester.isOnline()){
+                    requester.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                            "&c你向玩家 " +targetPlayer.getName() + " 发送的传送请求已经过期!"));
+                }
+                // 判断目标玩家是否在线
+                if (targetPlayer.isOnline()){
+                    targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                            "&c来自 " + (requester != null ? requester.getName() : "未知玩家") + " 的传送请求已过期！"));
+                }
+                // 移除请求
+                removeRequest(targetPlayer);
+            }
+        },plugin.getConfigManager().getConfig().getRequestTimeout() * 20);
     }
 
     /**

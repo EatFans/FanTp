@@ -45,18 +45,24 @@ public class MainCommand implements CommandExecutor {
             plugin.getMenuManager().setPlayerMenu(player,menu);
             menu.open(player);
         } else if (args.length == 1){
-            if (args[0].equals("yes")){
-                plugin.getLogger().info("Player "+player.getName() + " agree teleport request.");
-                TeleportAgreeEvent teleportAgreeEvent = new TeleportAgreeEvent(player);
-                Bukkit.getPluginManager().callEvent(teleportAgreeEvent);
-            } else if (args[0].equals("no")){
-                plugin.getLogger().info("Player "+player.getName() + " deny teleport request.");
-                TeleportDenyEvent teleportDenyEvent = new TeleportDenyEvent(player);
-                Bukkit.getPluginManager().callEvent(teleportDenyEvent);
+            switch (args[0]) {
+                case "yes":
+                    plugin.getLogger().info("Player " + player.getName() + " agree teleport request.");
+                    TeleportAgreeEvent teleportAgreeEvent = new TeleportAgreeEvent(player);
+                    Bukkit.getPluginManager().callEvent(teleportAgreeEvent);
+                    break;
+                case "no":
+                    plugin.getLogger().info("Player " + player.getName() + " deny teleport request.");
+                    TeleportDenyEvent teleportDenyEvent = new TeleportDenyEvent(player);
+                    Bukkit.getPluginManager().callEvent(teleportDenyEvent);
+                    break;
+                default:
+                    break;
             }
 
         }
 
         return true;
     }
+
 }

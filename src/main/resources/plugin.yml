@@ -12,6 +12,9 @@ commands:
   t:
     description: main command
     usage: /t
+  fantp:
+    description: main command
+    usage: /fantp
 
 permissions:
   fantp.admin:
