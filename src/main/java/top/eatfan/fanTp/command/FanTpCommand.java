@@ -28,8 +28,6 @@ public class FanTpCommand implements CommandExecutor {
                     commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                             plugin.getConfigManager().getLangConfig().getReload()));
 
-                    String prefix = plugin.getConfigManager().getLangConfig().getPrefix();
-                    plugin.getLogger().info(prefix);
                     break;
                 default:
                     break;
