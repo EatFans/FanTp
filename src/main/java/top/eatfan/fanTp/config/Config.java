@@ -17,10 +17,17 @@ public class Config {
         init();
     }
 
+    /**
+     * 初始化数据
+     */
     private void init(){
         requestTimeout = fileConfiguration.getInt("request-timeout");
     }
 
+    /**
+     * 获取超时时间
+     * @return 超时时间
+     */
     public int getRequestTimeout(){
         return requestTimeout;
     }
