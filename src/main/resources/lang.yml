@@ -22,7 +22,7 @@ tp-menu-next-button: "下一页"
 # 传送菜单中关闭按钮
 tp-menu-close-button: "关闭"
 # 已经是传送菜单第一页的文本
-is-fist-page: "&c已经是第一页了！"
+is-first-page: "&c已经是第一页了！"
 # 已经是传送菜单最后一页的文本
 is-end-page: "&c已经是最后一页了！"
 # 发送者的传送请求已经过期
