@@ -1,5 +1,6 @@
 package top.eatfan.fanTp.linstener;
 
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -147,7 +148,7 @@ public class MenuEventListener implements Listener {
                     }
 
                     // 检查是否点击头颅物品
-                    if (currentItem.getType() == Material.PLAYER_HEAD) {
+                    if (XMaterial.PLAYER_HEAD.isSimilar(currentItem)) {
                         Player targetPlayer = menu.getTargetPlayer(currentItem);
                         if (targetPlayer != null) {
                             // 触发传送请求发送事件

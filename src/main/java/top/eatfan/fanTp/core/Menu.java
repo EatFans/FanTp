@@ -1,5 +1,6 @@
 package top.eatfan.fanTp.core;
 
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -39,17 +40,18 @@ public class Menu {
 
     private final List<Player> onlinePlayers = new ArrayList<>();
 
-    private final Map<ItemStack,Player> menuPlayerItems = new HashMap<>(); // 玩家物品
+    private final Map<String,Player> menuPlayerItems = new HashMap<>(); // 玩家物品
     private Inventory inventory;  // 菜单的容器
 
     public Menu(){
         FanTp plugin = FanTp.getInstance();
         inventory = Bukkit.createInventory(null,27, ChatColor.translateAlternateColorCodes('&',
                 plugin.getConfigManager().getLangConfig().getTpMenuName()));
-        decorativeBoard = new ItemStack(Material.BLACK_STAINED_GLASS_PANE,1);
-        lastPageButton = new ItemStack(Material.GRAY_STAINED_GLASS_PANE,1);
-        nextPageButton = new ItemStack(Material.GRAY_STAINED_GLASS_PANE,1);
-        closeButton = new ItemStack(Material.RED_STAINED_GLASS_PANE,1);
+
+        decorativeBoard = XMaterial.BLACK_STAINED_GLASS_PANE.parseItem();
+        lastPageButton = XMaterial.GRAY_STAINED_GLASS_PANE.parseItem();
+        nextPageButton = XMaterial.GRAY_STAINED_GLASS_PANE.parseItem();
+        closeButton = XMaterial.RED_STAINED_GLASS_PANE.parseItem();
         isEnableLastPageButton = false;
         isEnableNextPageButton = false;
         currentPage = 1;
@@ -128,7 +130,7 @@ public class Menu {
         for (int i = startIndex; i < endIndex; i++){
             Player target = onlinePlayers.get(i);
             ItemStack playerHead = createPlayerHead(target);
-            menuPlayerItems.put(playerHead,target);
+            addPlayerToMenu(target,playerHead);
             inventory.setItem(i - startIndex, playerHead);
         }
 
@@ -180,7 +182,7 @@ public class Menu {
         for (int i = startIndex; i < endIndex; i++){
             Player target = onlinePlayers.get(i);
             ItemStack playerHead = createFakePlayerHead("测试玩家" + (i + 1));
-            menuPlayerItems.put(playerHead, target); // target 为 null 也没关系
+            addPlayerToMenu(target,playerHead);
             inventory.setItem(i - startIndex, playerHead);
         }
 
@@ -204,11 +206,12 @@ public class Menu {
      * @return 上一页按钮物品
      */
     private ItemStack createLastPageButton(boolean isEnabled) {
-        Material material = isEnabled ? Material.GREEN_STAINED_GLASS_PANE : Material.GRAY_STAINED_GLASS_PANE;
+        XMaterial material = isEnabled ? XMaterial.GREEN_STAINED_GLASS_PANE : XMaterial.GRAY_STAINED_GLASS_PANE;
         ChatColor color = isEnabled ? ChatColor.GREEN : ChatColor.RED;
         String displayName = color + FanTp.getInstance().getConfigManager().getLangConfig().getTpMenuLastButton();
 
-        ItemStack itemStack = new ItemStack(material, 1);
+
+        ItemStack itemStack = material.parseItem();
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
             itemMeta.setDisplayName(displayName);
@@ -223,11 +226,11 @@ public class Menu {
      * @return 下一页按钮物品
      */
     private ItemStack createNextPageButton(boolean isEnabled) {
-        Material material = isEnabled ? Material.GREEN_STAINED_GLASS_PANE : Material.GRAY_STAINED_GLASS_PANE;
+        XMaterial material = isEnabled ? XMaterial.GREEN_STAINED_GLASS_PANE : XMaterial.GRAY_STAINED_GLASS_PANE;
         ChatColor color = isEnabled ? ChatColor.GREEN : ChatColor.RED;
         String displayName = color + FanTp.getInstance().getConfigManager().getLangConfig().getTpMenuNextButton();
-
-        ItemStack itemStack = new ItemStack(material, 1);
+    
+        ItemStack itemStack = material.parseItem();
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
             itemMeta.setDisplayName(displayName);
@@ -357,6 +360,16 @@ public class Menu {
         }
         return playerHead;
     }
+    // 在创建头颅时
+    public void addPlayerToMenu(Player player, ItemStack headItem) {
+        // 设置头颅的显示名称为玩家名称
+        ItemMeta meta = headItem.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&f&l[ &e" + player.getName() + " &f&l]"));
+            headItem.setItemMeta(meta);
+        }
+        menuPlayerItems.put(player.getName(), player);
+    }
 
     /**
      * 获取容器
@@ -411,8 +424,18 @@ public class Menu {
      * @param itemStack 玩家头物品
      * @return 目标玩家
      */
-    public Player getTargetPlayer(ItemStack itemStack){
-        return menuPlayerItems.get(itemStack);
+    public Player getTargetPlayer(ItemStack itemStack) {
+        if (itemStack != null && itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName()) {
+            String displayName = ChatColor.stripColor(itemStack.getItemMeta().getDisplayName());
+            // 从显示名称中提取玩家名称
+            // 假设格式是 "[ 玩家名 ]"
+            if (displayName.startsWith("[ ") && displayName.endsWith(" ]")) {
+                String playerName = displayName.substring(2, displayName.length() - 2).trim();
+                // 通过名称查找在线玩家
+                return Bukkit.getPlayerExact(playerName);
+            }
+        }
+        return null;
     }
 
     /**
