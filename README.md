@@ -42,58 +42,58 @@ lang.yml
 # Prefix
 prefix: "&f&l[ &eTp &f&l]  "
 # No permission
-no-permission: "&c没有权限！"
+no-permission: "&cNo permission!"
 # Configuration reload
-reload: "&a配置文件已经重新加载！"
+reload: "&aConfiguration file has been reloaded!"
 # Open teleport menu
-open-tp-menu: "&a打开了传送菜单！"
+open-tp-menu: "&aOpened teleport menu!"
 # Close teleport menu
-close-tp-menu: "&c关闭了传送菜单！"
+close-tp-menu: "&cClosed teleport menu!"
 # Teleport menu container name
-tp-menu-name: "&a&l传送列表"
+tp-menu-name: "&a&lTeleport List"
 # Player head lore in teleport menu
 tp-menu-head-lore:
   - " "
-  - " &e点击传送到该玩家"
+  - " &eClick to teleport to this player"
   - " "
 # Previous page button in teleport menu
-tp-menu-last-button: "上一页"
+tp-menu-last-button: "Previous"
 # Next page button in teleport menu
-tp-menu-next-button: "下一页"
+tp-menu-next-button: "Next"
 # Close button in teleport menu
-tp-menu-close-button: "关闭"
+tp-menu-close-button: "Close"
 # Text for already on first page
-is-first-page: "&c已经是第一页了！"
+is-first-page: "&cAlready on the first page!"
 # Text for already on last page
-is-end-page: "&c已经是最后一页了！"
+is-end-page: "&cAlready on the last page!"
 # Sender's teleport request has expired
-tp-request-timeout-a: "&c你发送的传送请求已经过期"
+tp-request-timeout-a: "&cYour teleport request has expired"
 # Receiver's teleport request has expired
-tp-request-timeout-b: "&c你有个传送请求已经过期"
+tp-request-timeout-b: "&cA teleport request to you has expired"
 # Target has unprocessed teleport request
-not-processed-tp-request: "&c对方存在没处理的传送请求！无法传送！"
+not-processed-tp-request: "&cTarget has an unprocessed teleport request! Cannot teleport!"
 # No teleport request to process
-no-tp-request: "&c不存在需要处理的传送请求！"
+no-tp-request: "&cNo teleport request to process!"
 # Target accepted your teleport request
-other-agree-tp-request: "&a对方同意了你的传送请求！"
+other-agree-tp-request: "&aTarget accepted your teleport request!"
 # Target rejected your teleport request
-other-deny-tp-request: "&c对方拒绝了你的传送请求！"
+other-deny-tp-request: "&cTarget rejected your teleport request!"
 # You accepted teleport request
-agree-tp-request: "&a已经同意传送请求！"
+agree-tp-request: "&aAccepted teleport request!"
 # You rejected teleport request
-deny-tp-request: "&c已经拒绝传送请求！"
+deny-tp-request: "&cRejected teleport request!"
 # Teleport request sent
-send-tp-request: "&a已经发送传送请求！"
+send-tp-request: "&aTeleport request sent!"
 # Someone sent you a teleport request
-receive-tp-request: " &a请求传送到你的位置，是否接受？"
+receive-tp-request: " &arequests to teleport to your location, accept?"
 # Chat accept button
-chat-agree-button: "[ 同意 ]"
+chat-agree-button: "[ Accept ]"
 # Accept button hover text
-chat-agree-button-hover: "点击以接受传送请求"
+chat-agree-button-hover: "Click to accept teleport request"
 # Chat reject button
-chat-deny-button: "[ 拒绝 ]"
+chat-deny-button: "[ Reject ]"
 # Reject button hover text
-chat-deny-button-hover: "点击以拒绝传送请求"
+chat-deny-button-hover: "Click to reject teleport request"
 ```
 
 ## Installation
