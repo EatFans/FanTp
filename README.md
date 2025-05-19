@@ -13,7 +13,6 @@ FanTp is a lightweight Minecraft teleportation plugin that provides simple and e
 - Supported Server：Spigot、Paper...
 
 ## Features
-- Easy User ：只需输入命令或点击按钮即可发起传送请求
 - Teleport Request System ：Players can send teleport requests to other players
 - Graphical Interface ：Intuitive GUI menu showing all online players
 - Pagination ：Support for multi-page player lists
@@ -23,7 +22,7 @@ FanTp is a lightweight Minecraft teleportation plugin that provides simple and e
 ## Commands
 | Command       | Description     | Permission  |
 |--------------|----------------|-------------|
-| /tpa 或 /t    | open tp menu   | fantp.tp    |
+| /tpa or /t    | open tp menu   | fantp.tp    |
 | /tpa yes      | agree tp request    | null        |
 | /tpa no       | deny tp request    | null        |
 | /fantp reload | reload config    | fantp.admin |
