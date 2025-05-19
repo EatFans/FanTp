@@ -1,121 +1,124 @@
 # FanTp 饭式传送插件
 
-## 插件简介
-FanTp 是一个轻量级的 Minecraft 传送插件，为服务器提供了简单易用的玩家间传送功能。通过直观的 GUI 界面和简单的命令系统，玩家可以方便地向其他玩家发送传送请求。
+切换为中文文档 [中文README](doc/README_CN.md)
 
-## 插件信息
-- 作者：EatFan
-- 版本：v1.1.2
-- 支持版本：1.8.x - 1.21.x
-- 运行java版本：java8以上版本
-- 支持的服务端：Spigot、Paper等
+## Plugin Introduction
+FanTp is a lightweight Minecraft teleportation plugin that provides simple and easy-to-use player-to-player teleportation functionality for servers. Through an intuitive GUI interface and simple command system, players can easily send teleport requests to other players.
 
-## 功能特点
-- 传送请求系统 ：玩家可以向其他玩家发送传送请求
-- 图形化界面 ：直观的 GUI 菜单，显示所有在线玩家
-- 分页显示 ：支持多页显示玩家列表
-- 请求超时 ：传送请求会在一定时间后自动过期
-- 权限控制 ：完整的权限系统，控制谁可以使用传送功能
-- 配置灵活 ：可自定义消息、超时时间等设置
+## Plugin Information
+- Author：EatFan
+- version：v1.1.2
+- Supported Version：1.8.x - 1.21.x
+- Required java Version：java8以上版本
+- Supported Server：Spigot、Paper...
 
-## 命令
-| 命令            | 描述     | 权限          |
-|---------------|--------|-------------|
-| /tpa 或 /t     | 打开传送菜单 | fantp.tp    |
-| /tpa yes      | 接受传送请求 | 无           |
-| /tpa no       | 拒绝传送请求 | 无           |
-| /fantp reload | 重载配置文件 | fantp.admin |
+## Features
+- Easy User ：只需输入命令或点击按钮即可发起传送请求
+- Teleport Request System ：Players can send teleport requests to other players
+- Graphical Interface ：Intuitive GUI menu showing all online players
+- Pagination ：Support for multi-page player lists
+- Request Timeout ：Teleport requests will expire after a certain time
+- Permission Control ：Full permission system, allowing you to control who can use the teleportation feature
+- Flexible Configuration ：Customizable messages, timeout times, etc.
+## Commands
+| Command       | Description     | Permission  |
+|--------------|----------------|-------------|
+| /tpa 或 /t    | open tp menu   | fantp.tp    |
+| /tpa yes      | agree tp request    | null        |
+| /tpa no       | deny tp request    | null        |
+| /fantp reload | reload config    | fantp.admin |
 
-## 配置文件
-配置文件位于插件文件夹中。你可以根据需要自定义消息、超时时间等设置。
+
+## Configuration Files
+Configuration files are located in the plugin folder. You can customize messages, timeout settings, etc. according to your needs.
 
 **config.yml**
 ```yaml
-# 请求失效时间
+# Tp Request timeout
 request-timeout: 20
 ```
 
 lang.yml
 ```yaml
-# 前缀
-prefix: "&f&l[ &e传送 &f&l]  "
-# 没有权限
+# Prefix
+prefix: "&f&l[ &eTp &f&l]  "
+# No permission
 no-permission: "&c没有权限！"
-# 配置文件重载
+# Configuration reload
 reload: "&a配置文件已经重新加载！"
-# 打开传送菜单
+# Open teleport menu
 open-tp-menu: "&a打开了传送菜单！"
-# 关闭传送菜单
+# Close teleport menu
 close-tp-menu: "&c关闭了传送菜单！"
-# 传送菜单容器名称
+# Teleport menu container name
 tp-menu-name: "&a&l传送列表"
-# 传送菜单中玩家头颅的lore列表
+# Player head lore in teleport menu
 tp-menu-head-lore:
   - " "
   - " &e点击传送到该玩家"
   - " "
-# 传送菜单中上一页按钮
+# Previous page button in teleport menu
 tp-menu-last-button: "上一页"
-# 传送菜单中下一页按钮
+# Next page button in teleport menu
 tp-menu-next-button: "下一页"
-# 传送菜单中关闭按钮
+# Close button in teleport menu
 tp-menu-close-button: "关闭"
-# 已经是传送菜单第一页的文本
+# Text for already on first page
 is-first-page: "&c已经是第一页了！"
-# 已经是传送菜单最后一页的文本
+# Text for already on last page
 is-end-page: "&c已经是最后一页了！"
-# 发送者的传送请求已经过期
+# Sender's teleport request has expired
 tp-request-timeout-a: "&c你发送的传送请求已经过期"
-# 接受者的传送请求已经过期
+# Receiver's teleport request has expired
 tp-request-timeout-b: "&c你有个传送请求已经过期"
-# 对方存在没有处理的传送请求
+# Target has unprocessed teleport request
 not-processed-tp-request: "&c对方存在没处理的传送请求！无法传送！"
-# 不存在需要处理的传送请求
+# No teleport request to process
 no-tp-request: "&c不存在需要处理的传送请求！"
-# 对方同意了自己的传送请求
+# Target accepted your teleport request
 other-agree-tp-request: "&a对方同意了你的传送请求！"
-# 对方拒绝了自己的传送请求
+# Target rejected your teleport request
 other-deny-tp-request: "&c对方拒绝了你的传送请求！"
-# 自己同意了他人的传送请求
+# You accepted teleport request
 agree-tp-request: "&a已经同意传送请求！"
-# 自己拒绝了他人的传送请求
+# You rejected teleport request
 deny-tp-request: "&c已经拒绝传送请求！"
-# 已经向别人发送传送请求
+# Teleport request sent
 send-tp-request: "&a已经发送传送请求！"
-# 其他人给你发送了传送请求，（其他玩家名字始终在最前面）
+# Someone sent you a teleport request
 receive-tp-request: " &a请求传送到你的位置，是否接受？"
-# 聊天框同意按钮
+# Chat accept button
 chat-agree-button: "[ 同意 ]"
-# 同意按钮悬浮部分
+# Accept button hover text
 chat-agree-button-hover: "点击以接受传送请求"
-# 聊天拒绝按钮
+# Chat reject button
 chat-deny-button: "[ 拒绝 ]"
-# 拒绝按钮悬浮部分
+# Reject button hover text
 chat-deny-button-hover: "点击以拒绝传送请求"
 ```
 
-## 安装方法
-1. 下载最新的插件文件
-2. 将插件文件放入你的 Minecraft 服务器的 `plugins` 文件夹中
-3. 重启服务器
+## Installation
+1. Download the latest plugin file
+2. Place the plugin file in your Minecraft server's plugins folder
+3. Restart the server
 
-## 更新日志
+## Update Log
 
 ### v1.1.2
-- 修复1.13之前版本的兼容问题
-- 修复了已发现的bug
-- 优化了部分代码
+- Fixed compatibility issues with versions before 1.13
+- Fixed known bugs
+- Optimized some code
 
 ### v1.1.1
-- 添加自定义插件语言文件
-- 修复了一些已知的bug
+- Added custom plugin language file
+- Fixed some known bugs
 
 ### v1.0.9
-- 添加传送请求超时机制
-- 修复了一些已知的bug
+- Added teleport request timeout mechanism
+- Fixed some known bugs
 
 ### v1.0.7
-- 修复了v1.0.6版本中，玩家在处理了传送请求后，再次使用指令或聊天框按键处理请求，导致sender为null，服务端出现报错问题
+- Fixed an issue in v1.0.6 where players who processed a teleport request and then used commands or chat buttons to process the request again caused the sender to be null, resulting in server errors
 
 ### v1.0.6
-- 第一个正式发布的版本
+- First official release
