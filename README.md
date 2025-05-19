@@ -8,7 +8,7 @@ FanTp is a lightweight Minecraft teleportation plugin that provides simple and e
 ## Plugin Information
 - Author：EatFan
 - version：v1.1.2
-- Supported Version：1.8.x - 1.21.x
+- Supported Version：1.12.x - 1.21.x
 - Required java Version：java8以上版本
 - Supported Server：Spigot、Paper...
 
