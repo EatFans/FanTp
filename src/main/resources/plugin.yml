@@ -1,5 +1,5 @@
 name: FanTp
-version: '1.0.0'
+version: '1.2.0'
 main: top.eatfan.fanTp.FanTp
 authors: [ EatFan ]
 api-version: 1.13

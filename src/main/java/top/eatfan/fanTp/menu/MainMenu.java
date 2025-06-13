@@ -65,6 +65,33 @@ public class MainMenu extends BaseMenu{
         return closeButton;
     }
 
+    /**
+     * 是否点击关闭按钮
+     * @param itemStack 物品
+     * @return 如果是就返回true，否则就返回false
+     */
+    public boolean isClickCloseButton(ItemStack itemStack){
+        return closeButton.equals(itemStack);
+    }
+
+    /**
+     * 是否点击路径点传送按钮
+     * @param itemStack 物品
+     * @return 如果是就返回true，否则就返回false
+     */
+    public boolean isClickWayPointButton(ItemStack itemStack){
+        return waypoint.equals(itemStack);
+    }
+
+    /**
+     * 是否点击玩家传送按钮
+     * @param itemStack 物品
+     * @return 如果是就返回true，否则就返回false
+     */
+    public boolean isClickPlayerTeleportButton(ItemStack itemStack){
+        return playerTeleport.equals(itemStack);
+    }
+
     public ItemStack getDecorativeBoard() {
         return decorativeBoard;
     }

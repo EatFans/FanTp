@@ -43,7 +43,6 @@ public class TeleportPlayerMenuListener implements Listener {
     public void OnPlayerOpenMenu(InventoryOpenEvent event){
         HumanEntity humanEntity = event.getPlayer();
         Inventory inventory = event.getInventory();
-        // 为了防止有傻逼玩家的一些傻逼操作，这里就不要强制转换，检查后再转换，防止傻逼数据类型导致报错
         if (humanEntity instanceof Player){
             Player player = (Player) humanEntity;
 
