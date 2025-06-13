@@ -14,7 +14,7 @@ FanTp is a lightweight Minecraft teleportation plugin that provides simple and e
 
 ## Features
 - Teleport Request System ：Players can send teleport requests to other players
-- Graphical Interface ：Intuitive GUI menu showing all online players
+- Graphical Interface ：Intuitive GUI teleportPlayerMenu showing all online players
 - Pagination ：Support for multi-page player lists
 - Request Timeout ：Teleport requests will expire after a certain time
 - Permission Control ：Full permission system, allowing you to control who can use the teleportation feature
@@ -22,7 +22,7 @@ FanTp is a lightweight Minecraft teleportation plugin that provides simple and e
 ## Commands
 | Command       | Description     | Permission  |
 |--------------|----------------|-------------|
-| /tpa or /t    | open tp menu   | fantp.tp    |
+| /tpa or /t    | open tp teleportPlayerMenu   | fantp.tp    |
 | /tpa yes      | agree tp request    | null        |
 | /tpa no       | deny tp request    | null        |
 | /fantp reload | reload config    | fantp.admin |
@@ -45,23 +45,23 @@ prefix: "&f&l[ &eTp &f&l]  "
 no-permission: "&cNo permission!"
 # Configuration reload
 reload: "&aConfiguration file has been reloaded!"
-# Open teleport menu
-open-tp-menu: "&aOpened teleport menu!"
-# Close teleport menu
-close-tp-menu: "&cClosed teleport menu!"
-# Teleport menu container name
-tp-menu-name: "&a&lTeleport List"
-# Player head lore in teleport menu
-tp-menu-head-lore:
+# Open teleport teleportPlayerMenu
+open-tp-teleportPlayerMenu: "&aOpened teleport teleportPlayerMenu!"
+# Close teleport teleportPlayerMenu
+close-tp-teleportPlayerMenu: "&cClosed teleport teleportPlayerMenu!"
+# Teleport teleportPlayerMenu container name
+tp-teleportPlayerMenu-name: "&a&lTeleport List"
+# Player head lore in teleport teleportPlayerMenu
+tp-teleportPlayerMenu-head-lore:
   - " "
   - " &eClick to teleport to this player"
   - " "
-# Previous page button in teleport menu
-tp-menu-last-button: "Previous"
-# Next page button in teleport menu
-tp-menu-next-button: "Next"
-# Close button in teleport menu
-tp-menu-close-button: "Close"
+# Previous page button in teleport teleportPlayerMenu
+tp-teleportPlayerMenu-last-button: "Previous"
+# Next page button in teleport teleportPlayerMenu
+tp-teleportPlayerMenu-next-button: "Next"
+# Close button in teleport teleportPlayerMenu
+tp-teleportPlayerMenu-close-button: "Close"
 # Text for already on first page
 is-first-page: "&cAlready on the first page!"
 # Text for already on last page

@@ -44,22 +44,22 @@ no-permission: "&c没有权限！"
 # 配置文件重载
 reload: "&a配置文件已经重新加载！"
 # 打开传送菜单
-open-tp-menu: "&a打开了传送菜单！"
+open-tp-teleportPlayerMenu: "&a打开了传送菜单！"
 # 关闭传送菜单
-close-tp-menu: "&c关闭了传送菜单！"
+close-tp-teleportPlayerMenu: "&c关闭了传送菜单！"
 # 传送菜单容器名称
-tp-menu-name: "&a&l传送列表"
+tp-teleportPlayerMenu-name: "&a&l传送列表"
 # 传送菜单中玩家头颅的lore列表
-tp-menu-head-lore:
+tp-teleportPlayerMenu-head-lore:
   - " "
   - " &e点击传送到该玩家"
   - " "
 # 传送菜单中上一页按钮
-tp-menu-last-button: "上一页"
+tp-teleportPlayerMenu-last-button: "上一页"
 # 传送菜单中下一页按钮
-tp-menu-next-button: "下一页"
+tp-teleportPlayerMenu-next-button: "下一页"
 # 传送菜单中关闭按钮
-tp-menu-close-button: "关闭"
+tp-teleportPlayerMenu-close-button: "关闭"
 # 已经是传送菜单第一页的文本
 is-first-page: "&c已经是第一页了！"
 # 已经是传送菜单最后一页的文本
@@ -100,6 +100,10 @@ chat-deny-button-hover: "点击以拒绝传送请求"
 3. 重启服务器
 
 ## 更新日志
+
+### v2.0.0
+- 添加主菜单界面
+- 添加路径传送界面
 
 ### v1.1.2
 - 修复1.13之前版本的兼容问题

@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.eatfan.fanTp.FanTp;
-import top.eatfan.fanTp.core.Menu;
+import top.eatfan.fanTp.menu.TeleportPlayerMenu;
 import top.eatfan.fanTp.event.TeleportAgreeEvent;
 import top.eatfan.fanTp.event.TeleportDenyEvent;
 
@@ -41,11 +41,11 @@ public class MainCommand implements CommandExecutor {
                 return true;
             }
             // 新创一个自己的传送菜单，在菜单关闭时候删除
-            Menu menu = new Menu();
+            TeleportPlayerMenu teleportPlayerMenu = new TeleportPlayerMenu();
             player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     plugin.getConfigManager().getLangConfig().getOpenTpMenu()));
-            plugin.getMenuManager().setPlayerMenu(player,menu);
-            menu.open(player);
+            plugin.getMenuManager().setPlayerMenu(player, teleportPlayerMenu);
+            teleportPlayerMenu.open(player);
         } else if (args.length == 1){
             switch (args[0]) {
                 case "yes":

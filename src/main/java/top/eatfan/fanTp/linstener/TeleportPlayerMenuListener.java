@@ -3,7 +3,6 @@ package top.eatfan.fanTp.linstener;
 import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,8 +13,9 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import top.eatfan.fanTp.FanTp;
-import top.eatfan.fanTp.core.Menu;
-import top.eatfan.fanTp.core.MenuManager;
+import top.eatfan.fanTp.menu.BaseMenu;
+import top.eatfan.fanTp.menu.TeleportPlayerMenu;
+import top.eatfan.fanTp.menu.MenuManager;
 import top.eatfan.fanTp.event.TeleportRequestSendEvent;
 
 /**
@@ -24,12 +24,13 @@ import top.eatfan.fanTp.event.TeleportRequestSendEvent;
  *
  * @author Fan
  */
-public class MenuEventListener implements Listener {
+public class TeleportPlayerMenuListener implements Listener {
 
     private final FanTp plugin;
     private boolean isEnableClick;
+    private TeleportPlayerMenu teleportPlayerMenu;
 
-    public MenuEventListener(FanTp plugin){
+    public TeleportPlayerMenuListener(FanTp plugin){
         this.plugin = plugin;
         isEnableClick = false;
     }
@@ -45,10 +46,14 @@ public class MenuEventListener implements Listener {
         // 为了防止有傻逼玩家的一些傻逼操作，这里就不要强制转换，检查后再转换，防止傻逼数据类型导致报错
         if (humanEntity instanceof Player){
             Player player = (Player) humanEntity;
-            Menu menu = plugin.getMenuManager().getMenu(player);
+
+            BaseMenu menu = plugin.getMenuManager().getMenu(player);
+            if (menu instanceof TeleportPlayerMenu)
+                teleportPlayerMenu = (TeleportPlayerMenu) menu;
+
             // 检查被打开的容器是不是本插件的菜单
-            if (menu != null){
-                if (menu.getInventory().equals(inventory))
+            if (teleportPlayerMenu != null){
+                if (teleportPlayerMenu.getInventory().equals(inventory))
                     isEnableClick = false;
                 //
             }
@@ -66,9 +71,13 @@ public class MenuEventListener implements Listener {
         Inventory inventory = event.getInventory();
         if (humanEntity instanceof Player){
             Player player = (Player) humanEntity;
-            Menu menu = plugin.getMenuManager().getMenu(player);
-            if (menu != null){
-                if (menu.getInventory().equals(inventory)){
+
+            BaseMenu menu = plugin.getMenuManager().getMenu(player);
+            if (menu instanceof TeleportPlayerMenu)
+                teleportPlayerMenu = (TeleportPlayerMenu) menu;
+
+            if (teleportPlayerMenu != null){
+                if (teleportPlayerMenu.getInventory().equals(inventory)){
                     isEnableClick = true;
                     // 删除菜单
                     plugin.getMenuManager().removeMenu(player);
@@ -88,10 +97,14 @@ public class MenuEventListener implements Listener {
         HumanEntity whoClicked = event.getWhoClicked();
         if (whoClicked instanceof Player){
             Player player = (Player) whoClicked;
-            Menu menu = plugin.getMenuManager().getMenu(player);
+
+            BaseMenu menu = plugin.getMenuManager().getMenu(player);
+            if (menu instanceof TeleportPlayerMenu)
+                teleportPlayerMenu = (TeleportPlayerMenu) menu;
+
             // 检查实际容器是不是对应的菜单容器
-            if (menu != null){
-                if(menu.getInventory().equals(inventory)){
+            if (teleportPlayerMenu != null){
+                if(teleportPlayerMenu.getInventory().equals(inventory)){
                     if (!isEnableClick)
                         event.setCancelled(true); // 如果禁止点击了，就取消点击事件继续执行
                 }
@@ -114,16 +127,20 @@ public class MenuEventListener implements Listener {
         if (humanEntity instanceof Player){
             Player player = (Player) humanEntity;
 
-            Menu menu = plugin.getMenuManager().getMenu(player);
-            if (menu != null){
-                if (menu.getInventory().equals(inventory) &&
-                        menu.getInventory().equals(clickedInventory)){
+            BaseMenu menu = plugin.getMenuManager().getMenu(player);
+            if (menu instanceof TeleportPlayerMenu)
+                teleportPlayerMenu = (TeleportPlayerMenu) menu;
+
+
+            if (teleportPlayerMenu != null){
+                if (teleportPlayerMenu.getInventory().equals(inventory) &&
+                        teleportPlayerMenu.getInventory().equals(clickedInventory)){
 
                     if (currentItem == null)
                         return;
 
                     // 检查是否点击关闭按钮
-                    if (menu.isClickCloseButton(currentItem)){
+                    if (teleportPlayerMenu.isClickCloseButton(currentItem)){
                         player.closeInventory();
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                                 plugin.getConfigManager().getLangConfig().getCloseTpMenu()));
@@ -132,24 +149,24 @@ public class MenuEventListener implements Listener {
                     }
 
                     // 检查是否点击上一页
-                    if (menu.isLastPageButton(currentItem)){
-                        menu.toLastPage(player);
-                        menuManager.setPlayerMenu(player,menu);
+                    if (teleportPlayerMenu.isLastPageButton(currentItem)){
+                        teleportPlayerMenu.toLastPage(player);
+                        menuManager.setPlayerMenu(player, teleportPlayerMenu);
                         event.setCancelled(true);
                         return;
                     }
 
                     // 检查是否点击下一页
-                    if (menu.isNextPageButton(currentItem)) {
-                        menu.toNextPage(player);
-                        menuManager.setPlayerMenu(player,menu);
+                    if (teleportPlayerMenu.isNextPageButton(currentItem)) {
+                        teleportPlayerMenu.toNextPage(player);
+                        menuManager.setPlayerMenu(player, teleportPlayerMenu);
                         event.setCancelled(true);
                         return;
                     }
 
                     // 检查是否点击头颅物品
                     if (XMaterial.PLAYER_HEAD.isSimilar(currentItem)) {
-                        Player targetPlayer = menu.getTargetPlayer(currentItem);
+                        Player targetPlayer = teleportPlayerMenu.getTargetPlayer(currentItem);
                         if (targetPlayer != null) {
                             // 触发传送请求发送事件
                             player.closeInventory();

@@ -1,11 +1,10 @@
-package top.eatfan.fanTp.core;
+package top.eatfan.fanTp.menu;
 
 import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
  *
  * @author Fan
  */
-public class Menu {
+public class TeleportPlayerMenu extends BaseMenu{
     private ItemStack decorativeBoard;  // 装饰板物品堆
     private ItemStack lastPageButton; // 上一页按钮物品堆
     private ItemStack nextPageButton; // 下一页按钮物品堆
@@ -41,12 +40,10 @@ public class Menu {
     private final List<Player> onlinePlayers = new ArrayList<>();
 
     private final Map<String,Player> menuPlayerItems = new HashMap<>(); // 玩家物品
-    private Inventory inventory;  // 菜单的容器
 
-    public Menu(){
-        FanTp plugin = FanTp.getInstance();
-        inventory = Bukkit.createInventory(null,27, ChatColor.translateAlternateColorCodes('&',
-                plugin.getConfigManager().getLangConfig().getTpMenuName()));
+    public TeleportPlayerMenu(){
+        super(FanTp.getInstance().getConfigManager().getLangConfig().getTpMenuName(),27);
+
 
         decorativeBoard = XMaterial.BLACK_STAINED_GLASS_PANE.parseItem();
         lastPageButton = XMaterial.GRAY_STAINED_GLASS_PANE.parseItem();
@@ -63,7 +60,8 @@ public class Menu {
     /**
      * 初始化容器菜单内容
      */
-    private void initMenuContent(){
+    @Override
+    protected void initMenuContent(){
         decorativeBoard.setItemMeta(createNamedItem(decorativeBoard," "));
         lastPageButton.setItemMeta(createNamedItem(lastPageButton,"&c" +
                 FanTp.getInstance().getConfigManager().getLangConfig().getTpMenuLastButton()));
@@ -84,23 +82,10 @@ public class Menu {
     }
 
     /**
-     * 创建带有名字的物品
-     * @param item 物品
-     * @param displayName 名字
-     * @return 物品
-     */
-    private ItemMeta createNamedItem(ItemStack item, String displayName) {
-        ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', displayName));
-        }
-        return meta;
-    }
-
-    /**
      * 玩家打开菜单,
      * @param player 打开菜单的玩家
      */
+    @Override
     public void open(Player player){
         // 先清除0-17号的所有物品
         for (int i = 0; i <= 17; i++)
@@ -371,13 +356,6 @@ public class Menu {
         menuPlayerItems.put(player.getName(), player);
     }
 
-    /**
-     * 获取容器
-     * @return 容器
-     */
-    public Inventory getInventory(){
-        return inventory;
-    }
 
     /**
      * 按钮是否启用
@@ -438,11 +416,4 @@ public class Menu {
         return null;
     }
 
-    /**
-     * 设置容器
-     * @param inventory 容器
-     */
-    public void setInventory(Inventory inventory){
-        this.inventory = inventory;
-    }
 }
