@@ -68,7 +68,7 @@ public class TeleportPlayerMenu extends BaseMenu{
         nextPageButton.setItemMeta(createNamedItem(nextPageButton,"&c"+
                 FanTp.getInstance().getConfigManager().getLangConfig().getTpMenuNextButton()));
         closeButton.setItemMeta(createNamedItem(closeButton,"&c" +
-                FanTp.getInstance().getConfigManager().getLangConfig().getTpMenuCloseButton()));
+                FanTp.getInstance().getConfigManager().getLangConfig().getTpMenuBackButton()));
 
         inventory.setItem(LAST_PAGE_BUTTON_INDEX,lastPageButton);
         inventory.setItem(NEXT_PAGE_BUTTON_INDEX,nextPageButton);

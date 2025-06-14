@@ -20,6 +20,7 @@ public class LangConfig extends BaseConfig{
     private String tpMenuLastButton;
     private String tpMenuNextButton;
     private String tpMenuCloseButton;
+    private String tpMenuBackButton;
     private String isFirstPage;
     private String isEndPage;
     private String tpRequestTimeoutA;
@@ -52,6 +53,7 @@ public class LangConfig extends BaseConfig{
         tpMenuLastButton = fileConfiguration.getString("tp-menu-last-button");
         tpMenuNextButton = fileConfiguration.getString("tp-menu-next-button");
         tpMenuCloseButton = fileConfiguration.getString("tp-menu-close-button");
+        tpMenuBackButton = fileConfiguration.getString("tp-menu-back-button");
         isFirstPage = fileConfiguration.getString("is-first-page");
         isEndPage = fileConfiguration.getString("is-end-page");
         tpRequestTimeoutA = fileConfiguration.getString("tp-request-timeout-a");
@@ -169,5 +171,9 @@ public class LangConfig extends BaseConfig{
 
     public String getChatDenyButtonHover(){
         return chatDenyButtonHover;
+    }
+
+    public String getTpMenuBackButton() {
+        return tpMenuBackButton;
     }
 }

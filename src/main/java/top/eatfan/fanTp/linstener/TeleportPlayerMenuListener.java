@@ -14,6 +14,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import top.eatfan.fanTp.FanTp;
 import top.eatfan.fanTp.menu.BaseMenu;
+import top.eatfan.fanTp.menu.MainMenu;
 import top.eatfan.fanTp.menu.TeleportPlayerMenu;
 import top.eatfan.fanTp.menu.MenuManager;
 import top.eatfan.fanTp.event.TeleportRequestSendEvent;
@@ -27,6 +28,8 @@ import top.eatfan.fanTp.event.TeleportRequestSendEvent;
 public class TeleportPlayerMenuListener implements Listener {
 
     private final FanTp plugin;
+
+    @Deprecated
     private boolean isEnableClick;
     private TeleportPlayerMenu teleportPlayerMenu;
 
@@ -39,6 +42,7 @@ public class TeleportPlayerMenuListener implements Listener {
      * 当玩家打开菜单时候
      * @param event 容器被打开事件
      */
+    @Deprecated
     @EventHandler
     public void OnPlayerOpenMenu(InventoryOpenEvent event){
         HumanEntity humanEntity = event.getPlayer();
@@ -104,8 +108,7 @@ public class TeleportPlayerMenuListener implements Listener {
             // 检查实际容器是不是对应的菜单容器
             if (teleportPlayerMenu != null){
                 if(teleportPlayerMenu.getInventory().equals(inventory)){
-                    if (!isEnableClick)
-                        event.setCancelled(true); // 如果禁止点击了，就取消点击事件继续执行
+                    event.setCancelled(true); // 如果禁止点击了，就取消点击事件继续执行
                 }
             }
 
@@ -138,12 +141,11 @@ public class TeleportPlayerMenuListener implements Listener {
                     if (currentItem == null)
                         return;
 
-                    // 检查是否点击关闭按钮
+                    // 检查是否点击返回按钮
                     if (teleportPlayerMenu.isClickCloseButton(currentItem)){
-                        player.closeInventory();
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                plugin.getConfigManager().getLangConfig().getCloseTpMenu()));
-                        event.setCancelled(true);
+                        MainMenu mainMenu = new MainMenu();
+                        mainMenu.open(player);
+                        plugin.getMenuManager().setPlayerMenu(player,mainMenu);
                         return;
                     }
 

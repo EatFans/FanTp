@@ -21,6 +21,9 @@ tp-menu-last-button: "Previous"
 tp-menu-next-button: "Next"
 # Close button in teleport menu
 tp-menu-close-button: "Close"
+# Back button in teleport menu
+tp-menu-back-button: "Back"
+
 # Text for already on first page
 is-first-page: "&cAlready on the first page!"
 # Text for already on last page

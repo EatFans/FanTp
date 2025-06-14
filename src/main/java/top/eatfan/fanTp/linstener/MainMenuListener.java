@@ -11,10 +11,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import top.eatfan.fanTp.FanTp;
-import top.eatfan.fanTp.menu.BaseMenu;
-import top.eatfan.fanTp.menu.MainMenu;
-import top.eatfan.fanTp.menu.MenuManager;
-import top.eatfan.fanTp.menu.TeleportPlayerMenu;
+import top.eatfan.fanTp.menu.*;
 
 /**
  * 主要菜单事件监听器
@@ -23,6 +20,8 @@ import top.eatfan.fanTp.menu.TeleportPlayerMenu;
  */
 public class MainMenuListener implements Listener {
     private final FanTp plugin;
+
+    @Deprecated
     private boolean isEnableClick;
     private MainMenu mainMenu;
 
@@ -35,6 +34,7 @@ public class MainMenuListener implements Listener {
      * 当玩家打开菜单时候
      * @param event 容器被打开事件
      */
+    @Deprecated
     @EventHandler
     public void onPlayerOpenMenu(InventoryOpenEvent event){
         HumanEntity humanEntity = event.getPlayer();
@@ -99,8 +99,7 @@ public class MainMenuListener implements Listener {
             // 检查实际容器是不是对应的菜单容器
             if (mainMenu != null){
                 if(mainMenu.getInventory().equals(inventory)){
-                    if (!isEnableClick)
-                        event.setCancelled(true); // 如果禁止点击了，就取消点击事件继续执行
+                    event.setCancelled(true); // 如果禁止点击了，就取消点击事件继续执行
                 }
             }
 
@@ -144,6 +143,10 @@ public class MainMenuListener implements Listener {
                 // 检查是否点击路径点传送按钮
                 if (mainMenu.isClickWayPointButton(currentItem)){
                     player.sendMessage("点击路径点传送");
+                    WaypointTeleportMenu waypointTeleportMenu = new WaypointTeleportMenu();
+                    player.sendMessage("你成功打开了路径点传送菜单");
+                    waypointTeleportMenu.open(player);
+                    menuManager.setPlayerMenu(player,waypointTeleportMenu);
                     return;
                 }
 
