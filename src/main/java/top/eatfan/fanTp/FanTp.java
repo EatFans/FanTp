@@ -7,6 +7,7 @@ import top.eatfan.fanTp.command.MainCommand;
 import top.eatfan.fanTp.command.TestCommand;
 import top.eatfan.fanTp.core.ConfigManager;
 import top.eatfan.fanTp.linstener.MainMenuListener;
+import top.eatfan.fanTp.linstener.WayPointTeleportMenuListener;
 import top.eatfan.fanTp.menu.MenuManager;
 import top.eatfan.fanTp.core.TeleportRequestManager;
 import top.eatfan.fanTp.linstener.TeleportPlayerMenuListener;
@@ -29,6 +30,7 @@ public final class FanTp extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new TeleportPlayerMenuListener(this),this);
         getServer().getPluginManager().registerEvents(new TeleportEventListener(this),this);
         getServer().getPluginManager().registerEvents(new MainMenuListener(this),this);
+        getServer().getPluginManager().registerEvents(new WayPointTeleportMenuListener(this),this);
 
         // 注册指令到服务器上
         MainCommand mainCommand = new MainCommand(this);

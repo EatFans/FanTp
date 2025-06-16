@@ -66,4 +66,14 @@ public class WaypointTeleportMenu extends BaseMenu{
         player.openInventory(inventory);
     }
 
+    /**
+     * 是否点击关闭按钮
+     * @param itemStack 物品
+     * @return
+     */
+    public boolean isClickCloseButton(ItemStack itemStack){
+        return closeButton.equals(itemStack);
+    }
+
+
 }
